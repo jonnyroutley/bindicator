@@ -1,6 +1,10 @@
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
+from urllib3.exceptions import InsecureRequestWarning
+from urllib3 import disable_warnings
+# disable warnings from using verify=False in get/post requests
+disable_warnings(InsecureRequestWarning)
 
 class Bin:
     def __init__(self, color, description):

@@ -1,10 +1,11 @@
 import requests
 from bs4 import BeautifulSoup
-from datetime import datetime
+from datetime import datetime, timedelta
 from urllib3.exceptions import InsecureRequestWarning
 from urllib3 import disable_warnings
 # disable warnings from using verify=False in get/post requests
 disable_warnings(InsecureRequestWarning)
+import notifications
 
 class Bin:
     def __init__(self, color, description):
@@ -34,6 +35,32 @@ class Bins:
         for key in self.bins:
             pretty_date = self.bins[key].collection_date.strftime('%A %d %b')
             print(f"The {self.bins[key].color} bin will be collected on {pretty_date}.")
+
+    def SendMessage(self):
+        today = datetime.today()
+        colors = []
+        for key in self.bins:
+            if self.bins[key].collection_date.date() - timedelta(days=4) == today.date():
+                colors.append(key.lower())
+        bin_string = ""
+        if len(colors) > 0:
+            if len(colors) == 1:
+                bin_string = colors[0]
+            else:
+                bin_string = colors[0]
+                for i in range(1, len(colors) - 1):
+                    bin_string += ", " + colors[i]
+                bin_string += " and " + colors[-1]
+
+            title = "Bins tomorrow"
+            if len(colors) == 1:
+                message = "The " + bin_string + " bin needs to go out tomorrow."
+            else:
+                message = "The " + bin_string + " bins need to go out tomorrow."
+            
+            send = notifications.SendNotification(title, message)
+            if send['status'] != 1:
+                raise ConnectionError("There was an issue with sending the message")
 
 bin_url = 'https://ecitizen.oxford.gov.uk/citizenportal/form.aspx?form=Bin_Collection_Day'
 
@@ -72,6 +99,7 @@ soup3 = BeautifulSoup(r3.text, "html.parser")
 my_bins = Bins()
 my_bins.AddBin(Bin("Green", "General waste"))
 my_bins.AddBin(Bin("Blue", "Recycling"))
+my_bins.AddBin(Bin("Food", "Food waste"))
 
 bins = [item.text for item in soup3.find_all("th")]
 dates = [item.text for item in soup3.find_all("td")]
@@ -80,3 +108,4 @@ result = list(zip(bins, dates))
 
 my_bins.PopulateBins(result)
 my_bins.PrintBins()
+my_bins.SendMessage()

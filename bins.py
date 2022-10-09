@@ -58,9 +58,7 @@ class Bins:
             else:
                 message = "The " + bin_string + " bins need to go out tomorrow."
             
-            send = notifications.SendNotification(title, message)
-            if send['status'] != 1:
-                raise ConnectionError("There was an issue with sending the message")
+            notifications.SendNotification(title, message)
 
 bin_url = 'https://ecitizen.oxford.gov.uk/citizenportal/form.aspx?form=Bin_Collection_Day'
 

@@ -40,7 +40,7 @@ class Bins:
         today = datetime.today()
         colors = []
         for key in self.bins:
-            if self.bins[key].collection_date.date() - timedelta(days=1) == today.date():
+            if self.bins[key].collection_date.date() - timedelta(days=3) == today.date():
                 colors.append(key.lower())
         bin_string = ""
         if len(colors) > 0:

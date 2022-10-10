@@ -16,8 +16,8 @@ def SendNotification(title, message):
     "m" : message,
     "v" : 3,
     "i" : 156,
-    # "d" : 'a', # All devices
-    "d" : 'gs4140', # Dev group
+    "d" : 'a', # All devices
+    # "d" : 'gs4140', # Dev group
     "k" : private_key, 
   }
 

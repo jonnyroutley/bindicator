@@ -40,7 +40,7 @@ class Bins:
         today = datetime.today()
         colors = []
         for key in self.bins:
-            if self.bins[key].collection_date.date() - timedelta(days=3) == today.date():
+            if self.bins[key].collection_date.date() - timedelta(days=1) == today.date():
                 colors.append(key.lower())
         bin_string = ""
         if len(colors) > 0:
@@ -52,11 +52,12 @@ class Bins:
                     bin_string += ", " + colors[i]
                 bin_string += " and " + colors[-1]
 
-            title = "Bins tomorrow"
+            title = "⚠️ Time to BinReal. ⚠️"
+
             if len(colors) == 1:
-                message = "The " + bin_string + " bin needs to go out tomorrow."
+                message = "The " + bin_string + " bin needs to go out tonight."
             else:
-                message = "The " + bin_string + " bins need to go out tomorrow."
+                message = "The " + bin_string + " bins need to go out tonight."
             
             notifications.SendNotification(title, message)
             # notifications.SendFakeNotification(title, message)

@@ -40,7 +40,7 @@ class Bins:
         today = datetime.today()
         colors = []
         for key in self.bins:
-            if self.bins[key].collection_date.date() - timedelta(days=4) == today.date():
+            if self.bins[key].collection_date.date() - timedelta(days=1) == today.date():
                 colors.append(key.lower())
         bin_string = ""
         if len(colors) > 0:
@@ -59,6 +59,8 @@ class Bins:
                 message = "The " + bin_string + " bins need to go out tomorrow."
             
             notifications.SendNotification(title, message)
+            # notifications.SendFakeNotification(title, message)
+            
 
 bin_url = 'https://ecitizen.oxford.gov.uk/citizenportal/form.aspx?form=Bin_Collection_Day'
 

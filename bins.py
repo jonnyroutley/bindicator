@@ -6,6 +6,9 @@ from urllib3 import disable_warnings
 # disable warnings from using verify=False in get/post requests
 disable_warnings(InsecureRequestWarning)
 import notifications
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 class Bin:
     def __init__(self, color, description):
@@ -72,7 +75,7 @@ soup1 = BeautifulSoup(r1.content, "html.parser")
 payload1 = {
     "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$ibtnFindAddress.x" : 1,
     "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$ibtnFindAddress.y" : 1,
-    "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$CustomerAddress" : "OX4 1QL"
+    "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$CustomerAddress" : os.getenv("POSTCODE")
 }
 
 payload1['__VIEWSTATE'] = soup1.select_one("#__VIEWSTATE")['value']
@@ -83,8 +86,8 @@ r2 = requests.post(bin_url, data=payload1, verify=False, cookies=r1.cookies)
 soup2 = BeautifulSoup(r2.text, "html.parser")
 
 payload2 = {
-    "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$CustomerAddress" : "OX4 1QL",
-    "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$lstSelectAddress" : "propertyref:101000470834",
+    "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$CustomerAddress" : os.getenv("POSTCODE"),
+    "Eform$Bin_Collection_Address_Search$AddressField_CustomerAddress$lstSelectAddress" : os.getenv("PROPERTYREF"),
     "Eform$Bin_Collection_Address_Search$NavigateNextButton.x" : 62,
     "Eform$Bin_Collection_Address_Search$NavigateNextButton.y" : 17
 }

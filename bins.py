@@ -40,7 +40,6 @@ class Bins:
 
     def PopulateBins(self, data):
         for item in data:
-            print(item)
             for key in self.bins:
                 if key in item[0]:
                     self.bins[key].set_date(item[1])
@@ -143,13 +142,10 @@ if __name__ == "__main__":
     parser.add_argument('-d', '--dev', help="send notifications to devs only", action='store_true')
     args = parser.parse_args()
     DEV = args.dev
-    username = os.getlogin()
-    print(username)
 
     try:
         main()
         logging.info("All good")
     except Exception as e:
-
         notifications.SendNotification("Time to Cry", e, True)
         logging.exception(e)

@@ -1,5 +1,7 @@
+
 # Bindicator
-Inspired by: https://www.glasgowlive.co.uk/news/glasgow-news/bindicator-device-every-glasgow-home-14738599
+
+Inspired by: [this post](https://www.glasgowlive.co.uk/news/glasgow-news/bindicator-device-every-glasgow-home-14738599)
 
 Check the Oxfordshire bin schedule for a given postcode and address.
 

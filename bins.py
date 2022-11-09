@@ -1,4 +1,5 @@
 import requests
+import argparse
 from bs4 import BeautifulSoup
 from datetime import datetime, timedelta
 from urllib3.exceptions import InsecureRequestWarning
@@ -72,8 +73,8 @@ class Bins:
             else:
                 message = "The " + bin_string + " bins need to go out tonight."
             
-            # notifications.SendNotification(title, message)
-            notifications.SendFakeNotification(title, message)
+            notifications.SendNotification(title, message, DEV)
+            # notifications.SendFakeNotification(title, message)
             
 def main():
     bin_url = 'https://ecitizen.oxford.gov.uk/citizenportal/form.aspx?form=Bin_Collection_Day'
@@ -116,25 +117,39 @@ def main():
 
     bins = [item.text for item in soup3.find_all("th")]
     dates = [item.text for item in soup3.find_all("td")]
-    print(dates)
 
     if any("exception" in x for x in dates):
         print(soup3, file=open('error.log','a'))
         raise AssertionError("Wrong page returned")
     
     result = list(zip(bins, dates))
-    print(*result, sep='\n')
+    # print(*result, sep='\n')
 
     my_bins.PopulateBins(result)
     my_bins.PrintBins()
     my_bins.SendMessage()
 
+class Dev:
+    def __init__(self, name):
+        self.name = name
+
 
 if __name__ == "__main__":
     logging.info("Running Main Script")
+
+    global DEV
+
+    parser = argparse.ArgumentParser("description='Select push notification group'")
+    parser.add_argument('-d', '--dev', help="send notifications to devs only", action='store_true')
+    args = parser.parse_args()
+    DEV = args.dev
+    username = os.getlogin()
+    print(username)
+
     try:
         main()
         logging.info("All good")
     except Exception as e:
-        notifications.SendFakeNotification("An error occurred", e)
+
+        notifications.SendNotification("Time to Cry", e, True)
         logging.exception(e)

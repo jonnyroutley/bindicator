@@ -7,7 +7,13 @@ load_dotenv()
 
 private_key = os.getenv("PUSHSAFE")
 
-def SendNotification(title, message):
+def SendNotification(title, message, dev=False):
+  group = "gs4140" if dev else 'a'
+  icon = 15 if dev else 136
+
+  if dev:
+    title = "({}) {}".format(os.getlogin(), title)
+
   if private_key is None:
     raise ConnectionError("No private key")
   url = 'https://www.pushsafer.com/api'
@@ -15,9 +21,8 @@ def SendNotification(title, message):
     "t" : title,
     "m" : message,
     "v" : 3,
-    "i" : 156,
-    "d" : 'a', # All devices
-    # "d" : 'gs4140', # Dev group
+    "i" : icon,
+    "d" : group,
     "k" : private_key, 
   }
 

@@ -75,6 +75,9 @@ class Bins:
             
             notifications.SendNotification(title, message, DEV)
             # notifications.SendFakeNotification(title, message)
+            # return 1 if notification is sent else 0
+            return 1
+        return 0
             
 def main():
     bin_url = 'https://ecitizen.oxford.gov.uk/citizenportal/form.aspx?form=Bin_Collection_Day'
@@ -127,7 +130,10 @@ def main():
 
     my_bins.PopulateBins(result)
     my_bins.PrintBins()
-    my_bins.SendMessage()
+    sent = my_bins.SendMessage()
+
+    # returns 1 if message was sent and 0 if not
+    return sent
 
 class Dev:
     def __init__(self, name):
@@ -145,8 +151,11 @@ if __name__ == "__main__":
     DEV = args.dev
 
     try:
-        main()
+        m = main()
         logging.info("All good")
+        if m == 0:
+            notifications.SendNotification("All Good My G", "Give yourself a pat on the back", True)
+
     except Exception as e:
         notifications.SendNotification("Time to Cry", e, True)
         logging.exception(e)

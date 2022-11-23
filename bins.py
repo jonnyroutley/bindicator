@@ -12,9 +12,10 @@ import logging
 from dotenv import load_dotenv
 load_dotenv()
 
+
+
 logging.basicConfig(
-    filename="log.log",
-    encoding="utf-8",
+    handlers=[logging.FileHandler(filename="./log.log", encoding="utf-8", mode="a+")],
     level=logging.DEBUG,
     format="%(asctime)s %(message)s",
     datefmt='%m/%d/%Y %I:%M:%S %p'

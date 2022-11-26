@@ -1,11 +1,10 @@
 
 # Bindicator
 
-Inspired by: [this post](https://www.glasgowlive.co.uk/news/glasgow-news/bindicator-device-every-glasgow-home-14738599)
+An app inspired by: [this post](https://www.glasgowlive.co.uk/news/glasgow-news/bindicator-device-every-glasgow-home-14738599)
 
-Check the Oxfordshire bin schedule for a given postcode and address.
+It checks the Oxfordshire bin schedule for a given postcode and address, and sends a push notification (via [Pushsafe](https://www.pushsafer.com)) if the bins need taking out tonight.
 
-You can also set up notifications via [Pushsafe](https://www.pushsafer.com) to indicate if bins need taking out tonight.
 
 .env variables required:
 PUSHSAFE="your API key"
